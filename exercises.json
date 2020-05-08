@@ -1,0 +1,6 @@
+{
+	"leg":["squat","lunge","reverseLunge","plank","oneArm","weightedChinup","weightedPullup"],
+	"bicep":["curl","pushup","wheel"],
+	"tricep":["tricepExtension","dip","sidePlank","pullup"],
+	"shoulder":["frontRaise","rearRaise","diamondPushup","chinup"]
+}

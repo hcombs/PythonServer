@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+
+<a href="#exercises" id="exercises">exercises</a>
+
+
+<div id="interface">
+	
+</div>
+
+
+<div id="getJSON" style="display:none;">
+	<iframe id="content" src="">
+		
+
+	</iframe>
+</div>
+
+
+<script type="text/javascript">
+	var reqListener = function(res){
+		console.log(res.responseText);
+	}
+
+
+
+	document.getElementById("exercises").onclick = function(e){
+		e.preventDefault();
+		
+		var x = new XMLHttpRequest();
+		x.addEventListener("load",reqListener);
+
+		var url = window.location.href.split("/");
+		url[url.length - 1] = "exercises.json";
+		url = url.join("/");
+
+		x.open("POST",e,url)
+
+		//document.getElementById('content').setAttribute("src","exercises.json");
+	}
+			
+
+
+</script>
+
+
+
+</body>
+</html>
