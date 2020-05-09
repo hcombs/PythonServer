@@ -1,19 +1,14 @@
 from http.server import BaseHTTPRequestHandler,HTTPServer, SimpleHTTPRequestHandler
-#from getController import GetRouter
 from router.Router import Router
 
 class GetHandler(SimpleHTTPRequestHandler):
 
         def do_GET(self):
             respObj = Router.parameterize(self.path)
-
-            if not respObj["file"]:
-                self.send_response(200)
-                self.send_header('Content-type',respObj['Content-type'])
-                self.end_headers()
-                self.wfile.write(respObj['response'])                
-            else:    
-                SimpleHTTPRequestHandler.do_GET(self)
+            self.send_response(200)
+            self.send_header('Content-type',respObj['Content-type'])
+            self.end_headers()
+            self.wfile.write(respObj['response'])                
 
         def do_POST(self):
             self.send_response(200)

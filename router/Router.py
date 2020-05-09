@@ -1,23 +1,31 @@
+from .Directory import Directory
+
 class Router:
 
 	@staticmethod
 	def parameterize(path):
-		return Router.routes(path)
+		return Router.setResponse(path)
 
 	@staticmethod
 	def routes(key):
 		route = {
-			"/exercise.html":Router.page
+			"/":Router.page
 		}
 		return route[key]()
 
 	@staticmethod
-	def page():
-		return {
-			"code":200,
-			"Content-type":"text/html",
-			"file":True
-		}
+	def page(response):
+		response["code"] = 200
+		#need to set types
+		response["Content-type"] = "text/html"
+		x = Directory.getPaths("router\public")
+
+		a = open(x[0],"r")
+		f = a.read()
+
+		response["response"] = f.encode()
+		
+		return response
 
 	@staticmethod
 	def api():
@@ -28,3 +36,8 @@ class Router:
 			"response": data,
 			"file":False
 		}
+
+	@staticmethod
+	def setResponse(path):
+		response = {"code":"","Content-type":"","response":""}
+		return Router.page(response)
