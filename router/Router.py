@@ -4,31 +4,23 @@ class Router:
 
 	@staticmethod
 	def parameterize(path):
-		return Router.setResponse(path)
-
-	@staticmethod
-	def routes(key):
-		route = {
-			"/":Router.page
-		}
-		return route[key]()
+		response = Router.setResponse(path)
+		if len(path.split("?")) > 1:
+			return Router.api(path)
+		else:
+			return Router.page(response)	
 
 	@staticmethod
 	def page(response):
-		response["code"] = 200
-		#need to set types
-		response["Content-type"] = "text/html"
-		x = Directory.getPaths("router\public")
+		response["response"] = Directory.getPaths(response["path"])
+		if not len(response["response"]):
+			response["code"] = 404
 
-		a = open(x[0],"r")
-		f = a.read()
-
-		response["response"] = f.encode()
-		
 		return response
 
 	@staticmethod
-	def api():
+	def api(path):
+		#parse and set methods for GET
 		data = b'<html><body><h1>GET!</h1></body></html>'
 		return {
 			"code":200,
@@ -39,5 +31,13 @@ class Router:
 
 	@staticmethod
 	def setResponse(path):
-		response = {"code":"","Content-type":"","response":""}
-		return Router.page(response)
+		if path == "/":
+			path = "index.html"
+		else:
+			sections = path.split("/")
+			path = sections[len(sections) - 1]
+
+		contentType = "text/" + path.split(".")[1]
+
+		return {"code":200,"Content-type":contentType,"response":"","path":path}
+		
