@@ -1,13 +1,15 @@
 from .Directory import Directory
+from .Getter import Getter
+
 
 class Router:
 
 	@staticmethod
 	def parameterize(path):
-		response = Router.setResponse(path)
 		if len(path.split("?")) > 1:
-			return Router.api(path)
+			return Router.parseApi(path)
 		else:
+			response = Router.setResponse(path)
 			return Router.page(response)	
 
 	@staticmethod
@@ -19,14 +21,29 @@ class Router:
 		return response
 
 	@staticmethod
-	def api(path):
-		#parse and set methods for GET
-		data = b'<html><body><h1>GET!</h1></body></html>'
+	def parseApi(path):
+		params = path.split("?")
+		getMethod = params[0].split("api")[1]
+		params = params[1].split("&")
+		data = {}
+
+		for i in range(len(params)):
+			parts = params[i].split("=")
+			data[parts[0]] = parts[1]
+
+		return Router.api(getMethod,data)
+
+	
+	def api(method,data):	
+		print(method)
+		getMethods = {
+			"/exercises":Getter.exercises
+		}
+		
 		return {
 			"code":200,
-			"Content-type":"text/html",
-			"response": data,
-			"file":False
+			"Content-type":"application/json",
+			"response":getMethods[method](data).encode()
 		}
 
 	@staticmethod
