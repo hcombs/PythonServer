@@ -1,6 +1,6 @@
-from .Directory import Directory
-from .Getter import Getter
-
+from frontend.Directory import Directory
+from api.Getter import Getter
+from api.Setter import Setter
 
 class Router:
 
@@ -9,15 +9,12 @@ class Router:
 		if len(path.split("?")) > 1:
 			return Router.parseApi(path)
 		else:
-			response = Router.setResponse(path)
-			return Router.page(response)	
+			return Router.page(path)	
 
 	@staticmethod
-	def page(response):
+	def page(path):
+		response = Router.setResponse(path)
 		response["response"] = Directory.getPaths(response["path"])
-		if not len(response["response"]):
-			response["code"] = 404
-
 		return response
 
 	@staticmethod
@@ -33,17 +30,16 @@ class Router:
 
 		return Router.api(getMethod,data)
 
-	
+	@staticmethod	
 	def api(method,data):	
-		print(method)
-		getMethods = {
+		apiMethods = {
 			"/exercises":Getter.exercises
 		}
 		
 		return {
 			"code":200,
 			"Content-type":"application/json",
-			"response":getMethods[method](data).encode()
+			"response":apiMethods[method](data).encode()
 		}
 
 	@staticmethod

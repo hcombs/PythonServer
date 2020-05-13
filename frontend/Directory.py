@@ -4,7 +4,7 @@ class Directory:
 	
 	@staticmethod
 	def getPaths(rt):
-		root = "router\public"
+		root = "frontend\public"
 		listOfFiles = list()
 
 		for dirpath, subdirs, files in os.walk(root):
