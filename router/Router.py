@@ -33,7 +33,8 @@ class Router:
 	@staticmethod	
 	def api(method,data):	
 		apiMethods = {
-			"/exercises":Getter.exercises
+			"/exercises":Getter.exercises,
+			"/update":Setter.setExercise
 		}
 		
 		return {
@@ -53,4 +54,3 @@ class Router:
 		contentType = "text/" + path.split(".")[1]
 
 		return {"code":200,"Content-type":contentType,"response":"","path":path}
-		

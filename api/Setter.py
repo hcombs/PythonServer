@@ -1,6 +1,9 @@
+from db.db import db 
+
 class Setter(object):
 	@staticmethod
-	def tester(data):
-		return "{\"test\":\"test\"}"
+	def setExercise(data):
+		inserter = db()
+		return inserter.updateState(data["values"])
 
 		

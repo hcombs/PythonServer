@@ -1,7 +1,10 @@
+from db.db import db 
+
 class Getter:
 	
 	@staticmethod
 	def exercises(data):
-		return "{\"test\":\"test\"}"
+		selector = db()
+		return selector.retrieveState(data["values"])
 
 
