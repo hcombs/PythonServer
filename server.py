@@ -11,13 +11,12 @@ class GetHandler(SimpleHTTPRequestHandler):
             self.wfile.write(respObj['response'])                
 
         def do_POST(self):
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
+            respObj = Router.api("/test",{"test":"test"})
+            self.send_response(200)    
+            self.send_header('Content-type',respObj['Content-type'])
             self.end_headers()
-            self.data_string = self.rfile.read(int(self.headers['Content-Length']))
+            self.wfile.write(respObj['response'])   
 
-            data = b'<html><body><h1>POST!</h1></body></html>'
-            self.wfile.write(bytes(data))
             return
 
 

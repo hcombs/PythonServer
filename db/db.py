@@ -1,43 +1,45 @@
+import json
 import sqlite3
-from sqlite3 import Error
 
-class db(object):
+class db:
+
 	def __init__(self):
-		super(db, self).__init__()
-		self.file = "system.db"
-
-	def updateState(self,obj):
-		con = db.__open(self.file)
-		cursor = con.cursor()
-		statement = self.__insertColumns
-		cursor.execute(statement)
-		con.commit()
-		db.__close(con)
-
-	def retrieveState(self,obj):
-		con = db.__open(self.file)
-		cursor = con.cursor()
-		statement = self.__selectColumns
-		cursor.execute(statement)
-		rows = cursor.fetchall()
-		db.__close(con)		
-		return rows	
-		
-	def __insertColumns(obj):
-		insertStmt = "INSERT INTO Progress (name, reps, timeVal, set, weight, date, time) VALUES"
-		insertStmt += ",".join(obj)
-		insertStmt += ")"
-		return insertStmt
-
-	def __selectColumns(obj):
-		selectStmt = "SELECT * FROM Progress WHERE date >= "
-		selectStmt += obj
-		return selectStmt
+		self.file = "db\system.db"
 
 	def __open(self):
-		return sqlite3.connect(db.file)
+		self.con = sqlite3.connect(self.file)
+		self.con.row_factory = db.dict_factory	
 
-	def __close(con):
-		con.close()
+	def __close(self):
+		self.con.close()	
 
-		
+	def __statement(self,sql):
+		c = self.con.cursor()	
+		c.execute(sql)
+		return c
+
+	def updateState(self,sql):
+		db.__open(self)
+		db.__statement(self,sql)
+		self.con.commit()
+		db.__close(self)	
+
+	def retrieveState(self,sql):
+		db.__open(self)
+		rows = db.__statement(self,sql)
+		result = rows.fetchall()
+		db.__close(self)
+		return json.dumps(result)
+
+	def dict_factory(cursor,rows):
+		d ={}
+		for idx,col in enumerate(cursor.description):
+			d[col[0]] = rows[idx]
+		return d
+
+#sql = """SELECT o.NAME, e.day, e.dID, e.eID FROM exercises o, groups e where o.exID = e.eID and day = 4"""
+
+
+
+    
+    

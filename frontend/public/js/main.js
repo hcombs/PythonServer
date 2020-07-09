@@ -1,5 +1,8 @@
+var global;
+
 var log = function(msg){
-	console.log(msg);
+	global = msg;
+  console.log(msg);
 }
 
 function loadDoc() {

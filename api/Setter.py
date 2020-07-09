@@ -4,6 +4,6 @@ class Setter(object):
 	@staticmethod
 	def setExercise(data):
 		inserter = db()
-		return inserter.updateState(data["values"])
+		return inserter.updateState(data["values"])		
 
 		

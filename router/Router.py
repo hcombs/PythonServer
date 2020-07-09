@@ -34,7 +34,7 @@ class Router:
 	def api(method,data):	
 		apiMethods = {
 			"/exercises":Getter.exercises,
-			"/update":Setter.setExercise
+			"/update":Setter.setExercise,
 		}
 		
 		return {
